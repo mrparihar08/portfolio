@@ -172,7 +172,7 @@ export default function PortfolioApp() {
                 className="w-72 md:w-80 rounded-2xl p-6 bg-white dark:bg-gray-800 shadow-2xl border border-gray-100 dark:border-gray-800"
               >
                 <motion.img
-                  src="portfolio/src/pradeep-parihar-from-At-Post-office-Rondha-Betul.jpg"
+                  src ="pradeep-parihar-from-At-Post-office-Rondha-Betul.jpg"
                   alt="pradeep parihar"
                   className="w-32 h-32 rounded-full mx-auto object-cover border-4 border-white dark:border-gray-900 shadow-lg"
                   initial={{ scale: 0.9, opacity: 0 }}
