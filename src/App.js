@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-scroll";
 import emailjs from "emailjs-com";
@@ -7,23 +7,29 @@ function App() {
   const [dark, setDark] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [sent, setSent] = useState(false);
+  const [error, setError] = useState("");
+  const form = useRef();   // 🔥 form reference
 
   const sendEmail = (e) => {
     e.preventDefault();
+    setError("");
+    setSent(false);
+
     emailjs
-      .send(
-        "your_service_id",   // replace with EmailJS service id
-        "your_template_id",  // replace with EmailJS template id
-        formData,
-        "your_public_key"    // replace with EmailJS public key
+      .sendForm(
+        process.env.REACT_APP_EMAILJS_SERVICE_ID,
+        process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+        form.current,
+        process.env.REACT_APP_EMAILJS_PUBLIC_KEY
       )
       .then(
         () => {
           setSent(true);
           setFormData({ name: "", email: "", message: "" });
         },
-        (error) => {
-          console.log("Error:", error.text);
+        (err) => {
+          console.error("Email error:", err);
+          setError("❌ Failed to send message. Try again!");
         }
       );
   };
@@ -119,14 +125,14 @@ function App() {
       {/* Contact */}
       <motion.section id="contact" className="p-10 bg-gray-100 dark:bg-gray-900 text-center">
         <h3 className="text-2xl font-bold mb-4">Contact Me</h3>
-        <form onSubmit={sendEmail} className="max-w-lg mx-auto space-y-4">
-          <input type="text" placeholder="Your Name" value={formData.name}
+        <form ref={form} onSubmit={sendEmail} className="max-w-lg mx-auto space-y-4">
+          <input type="text" name="name" placeholder="Your Name" value={formData.name}
             onChange={(e)=>setFormData({...formData,name:e.target.value})}
             required className="w-full p-3 rounded border dark:bg-gray-700" />
-          <input type="email" placeholder="Your Email" value={formData.email}
+          <input type="email" name="email" placeholder="Your Email" value={formData.email}
             onChange={(e)=>setFormData({...formData,email:e.target.value})}
             required className="w-full p-3 rounded border dark:bg-gray-700" />
-          <textarea placeholder="Your Message" rows="4" value={formData.message}
+          <textarea name="message" placeholder="Your Message" rows="4" value={formData.message}
             onChange={(e)=>setFormData({...formData,message:e.target.value})}
             required className="w-full p-3 rounded border dark:bg-gray-700"></textarea>
           <motion.button type="submit" whileHover={{ scale:1.05 }} whileTap={{ scale:0.9 }}
@@ -135,6 +141,7 @@ function App() {
           </motion.button>
         </form>
         {sent && <p className="mt-4 text-green-500 font-semibold">✅ Message Sent Successfully!</p>}
+        {error && <p className="mt-4 text-red-500 font-semibold">{error}</p>}
       </motion.section>
 
       {/* Footer */}
