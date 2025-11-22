@@ -22,15 +22,15 @@ export default function PortfolioApp() {
 
   const PROJECTS = [
     {
-      title: "Pulse — Analytics Dashboard",
+      title: "Vedh-symptoms checker",
       desc: "Realtime metrics dashboard with WebSocket feeds and custom visualizations.",
-      link: "#",
-      tech: ["React", "D3", "Node"]
+      link: "https://dora-main-30iw.onrender.com",
+      tech: ["React", "Fastapi", "Node.js"]
     },
     {
       title: "Vitya Finance — Personal Finance App",
       desc: "Full-stack expense & goal tracker with ML-powered suggestions.",
-      link: "#",
+      link: "https://vitya-ai-re.onrender.com",
       tech: ["React", "Flask", "Postgres"]
     },
     {
